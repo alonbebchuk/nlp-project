@@ -438,6 +438,17 @@
                 </div>
             </div>
 
+            <div class="key-points">
+                <div class="key-point">
+                    <h4>🔗 Political Dependencies</h4>
+                    <p><strong>Direct dependency:</strong> Judge to text (since he wrote it)<br><strong>Indirect dependency:</strong> Other panel judges to text (since they voted on decision) + effect on authoring judge</p>
+                </div>
+                <div class="key-point">
+                    <h4>📏 Text Length Challenge</h4>
+                    <p>Classic transformers have context length of 512 tokens whereas opinions can be tens or hundreds of thousands of tokens</p>
+                </div>
+            </div>
+
             <div class="highlight-box">
                 <div class="highlight-title">🎯 Research Questions</div>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 20px; font-size: 1.1em;">
@@ -451,20 +462,73 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- Slide 2: Example Input/Output -->
+        <div class="slide">
+            <div class="slide-header">
+                <h1 class="slide-title">Example: Input Data & Agent Response</h1>
+                <p class="slide-subtitle">Revealing Model Worldviews Through Chain-of-Thought</p>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-section">
+                    <h3 class="section-title">📄 Input: Opinion Text (Excerpt)</h3>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 4px solid #667eea; font-family: 'Courier New', monospace; font-size: 0.95em; line-height: 1.4;">
+                        <p style="margin-bottom: 15px; color: #333;">
+                            "We are bound by the text of the Constitution as originally understood by those who ratified it. The judiciary's role is not to adapt the Constitution to contemporary values, but to interpret it according to its original public meaning. The Founders intended limited federal power, and we must respect those boundaries..."
+                        </p>
+                        <p style="color: #333;">
+                            "...While this outcome may seem harsh in today's context, judicial restraint requires us to apply the law as written rather than as we might wish it were. The proper forum for addressing these concerns is the legislature, not the courts..."
+                        </p>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h3 class="section-title">🏷️ Ground Truth Labels</h3>
+                    <div style="background: white; padding: 25px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+                        <div style="display: flex; flex-direction: column; gap: 15px;">
+                            <div style="background: linear-gradient(135deg, #dc3545, #c82333); color: white; padding: 20px; border-radius: 8px; text-align: center; font-weight: 600; font-size: 1.2em;">
+                                <div style="margin-bottom: 5px;">👨‍⚖️ Author</div>
+                                <div>Republican</div>
+                            </div>
+                            <div style="background: linear-gradient(135deg, #dc3545, #c82333); color: white; padding: 20px; border-radius: 8px; text-align: center; font-weight: 600; font-size: 1.2em;">
+                                <div style="margin-bottom: 5px;">👥 Joined By</div>
+                                <div>2 Republicans</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin: 30px 0;">
+                <div class="highlight-title">🤖 Agent Response & Chain-of-Thought</div>
+                <div style="background: rgba(255,255,255,0.1); padding: 25px; border-radius: 10px; margin-top: 20px; text-align: left;">
+                    <p style="font-size: 1.1em; line-height: 1.6; margin-bottom: 20px;">
+                        <strong>Prediction:</strong> Author is Republican, joined by 2 Republicans
+                    </p>
+                    <p style="font-size: 1.05em; line-height: 1.6; font-style: italic;">
+                        <strong>Reasoning:</strong> "This opinion exhibits classic conservative judicial philosophy through several key indicators: (1) <strong>Judicial Restraint</strong> - explicitly states courts shouldn't adapt Constitution to contemporary values, (2) <strong>Textualism</strong> - focus on applying 'law as written,' and (3) <strong>Federalism</strong> - concern about limited federal power. These are hallmark conservative legal principles.
+                    </p>
+                    <p style="font-size: 1.05em; line-height: 1.6; font-style: italic; margin-top: 15px;">
+                        The unanimous Republican panel alignment reinforces this assessment - the conservative legal reasoning resonated with all three Republican-appointed judges, suggesting this reflects core conservative judicial philosophy rather than a narrow technical ruling..."
+                    </p>
+                </div>
+            </div>
 
             <div class="key-points">
                 <div class="key-point">
-                    <h4>🔗 Political Dependencies</h4>
-                    <p><strong>Direct dependency:</strong> Judge to text (since he wrote it)<br><strong>Indirect dependency:</strong> Other panel judges to text (since they voted on decision) + effect on authoring judge</p>
+                    <h4>🔍 Model Worldview Revealed</h4>
+                    <p>Agent associates <strong>judicial restraint, textualism, federalism</strong> with Republican judges - showing its understanding of conservative legal philosophy</p>
                 </div>
                 <div class="key-point">
-                    <h4>📏 Text Length Challenge</h4>
-                    <p>Classic transformers have context length of 512 tokens whereas opinions can be tens or hundreds of thousands of tokens</p>
+                    <h4>📊 Research Value</h4>
+                    <p>By analyzing many such responses, we can map each AI model's understanding of political bias patterns</p>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 2: Standard NLP Approach -->
+        <!-- Slide 3: Standard NLP Approach -->
         <div class="slide">
             <div class="slide-header">
                 <h1 class="slide-title">Standard NLP Approach</h1>
@@ -558,11 +622,17 @@
                     
                     <div style="font-size: 3em; color: #667eea; margin: 0 30px;">→</div>
                     
-                    <div style="flex: 1; text-align: center;">
-                        <div style="background: linear-gradient(135deg, #667eea, #764ba2); padding: 40px; border-radius: 15px; color: white; margin-bottom: 15px;">
-                            <div style="font-size: 2.5em; margin-bottom: 15px;">🤖</div>
-                            <div style="font-weight: 600; font-size: 1.3em;">AI Agent</div>
-                            <div style="font-size: 1.1em; opacity: 0.9;">Chain-of-Thought</div>
+                    <div style="flex: 2; text-align: center;">
+                        <div style="display: flex; flex-direction: column; gap: 15px;">
+                            <div style="background: linear-gradient(135deg, #667eea, #764ba2); padding: 25px; border-radius: 15px; color: white;">
+                                <div style="font-weight: 600; font-size: 1.2em;">GPT-4</div>
+                            </div>
+                            <div style="background: linear-gradient(135deg, #667eea, #764ba2); padding: 25px; border-radius: 15px; color: white;">
+                                <div style="font-weight: 600; font-size: 1.2em;">Claude</div>
+                            </div>
+                            <div style="background: linear-gradient(135deg, #667eea, #764ba2); padding: 25px; border-radius: 15px; color: white;">
+                                <div style="font-weight: 600; font-size: 1.2em;">Gemini</div>
+                            </div>
                         </div>
                     </div>
                     
@@ -578,28 +648,10 @@
                 </div>
             </div>
 
-            <div class="agent-comparison">
-                <div class="agent-card">
-                    <div class="agent-logo">GPT</div>
-                    <h4 style="margin-bottom: 10px; color: #2c3e50; font-size: 1.3em;">GPT-4</h4>
-                    <p style="color: #333; font-size: 1.1em;">OpenAI's flagship model</p>
-                </div>
-                <div class="agent-card">
-                    <div class="agent-logo">🤖</div>
-                    <h4 style="margin-bottom: 10px; color: #2c3e50; font-size: 1.3em;">Claude</h4>
-                    <p style="color: #333; font-size: 1.1em;">Anthropic's reasoning model</p>
-                </div>
-                <div class="agent-card">
-                    <div class="agent-logo">💎</div>
-                    <h4 style="margin-bottom: 10px; color: #2c3e50; font-size: 1.3em;">Gemini</h4>
-                    <p style="color: #333; font-size: 1.1em;">Google's multimodal AI</p>
-                </div>
-            </div>
-
             <div class="key-points">
                 <div class="key-point full-width">
-                    <h4>💭 Chain-of-Thought Process</h4>
-                    <p>The agent explains why it thinks an opinion is "Republican" or "Democratic": <em>"This opinion emphasizes judicial restraint and constitutional originalism, suggesting conservative judicial philosophy..."</em> → Republican prediction</p>
+                    <h4 style="text-align: center;">💭 Chain-of-Thought Reasoning</h4>
+                    <p style="text-align: center;">The agent explains why it thinks an opinion is "Republican" or "Democratic"</p>
                 </div>
             </div>
 
@@ -624,13 +676,15 @@
         <div class="indicator active" onclick="showSlide(0)"></div>
         <div class="indicator" onclick="showSlide(1)"></div>
         <div class="indicator" onclick="showSlide(2)"></div>
+        <div class="indicator" onclick="showSlide(3)"></div>
     </div>
 
     <div class="navigation">
         <button class="nav-btn" onclick="prevSlide()">← Previous</button>
         <button class="nav-btn active" onclick="showSlide(0)">Data & Preprocessing</button>
-        <button class="nav-btn" onclick="showSlide(1)">BERT Approach</button>
-        <button class="nav-btn" onclick="showSlide(2)">Agentic Approach</button>
+        <button class="nav-btn" onclick="showSlide(1)">Example</button>
+        <button class="nav-btn" onclick="showSlide(2)">BERT Approach</button>
+        <button class="nav-btn" onclick="showSlide(3)">Agentic Approach</button>
         <button class="nav-btn" onclick="nextSlide()">Next →</button>
     </div>
 

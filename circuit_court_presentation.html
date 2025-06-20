@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circuit Court Opinion Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+            font-size: 16px;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border-radius: 20px;
+            margin: 20px;
+            width: calc(100% - 40px);
+            height: calc(100% - 40px);
+            padding: 60px;
+            display: none;
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        .slide-header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 20px;
+        }
+
+        .slide-title {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .slide-subtitle {
+            font-size: 1.2em;
+            color: #7f8c8d;
+            font-weight: 300;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            padding: 12px 24px;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-btn:hover {
+            background: white;
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .slide-indicators {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator.active {
+            background: white;
+            transform: scale(1.3);
+        }
+
+        /* Content Styles */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .content-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 1.4em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 600;
+            border-left: 4px solid #667eea;
+            padding-left: 15px;
+        }
+
+        .judge-panel {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .judge {
+            text-align: center;
+            padding: 15px;
+        }
+
+        .judge-icon {
+            width: 60px;
+            height: 60px;
+            background: #667eea;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .judge-label {
+            font-size: 1em;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 30px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .flow-step {
+            text-align: center;
+            flex: 1;
+            padding: 20px;
+        }
+
+        .flow-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 15px;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5em;
+        }
+
+        .flow-arrow {
+            font-size: 2em;
+            color: #667eea;
+            margin: 0 10px;
+        }
+
+        .architecture-diagram {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .bert-pipeline {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .pipeline-stage {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .stage-info {
+            flex: 1;
+        }
+
+        .stage-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .stage-desc {
+            color: #333;
+            font-size: 1em;
+            font-weight: 500;
+        }
+
+        .stage-visual {
+            width: 100px;
+            height: 60px;
+            background: #667eea;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .agent-comparison {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .agent-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .agent-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .agent-logo {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .highlight-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .key-points {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .key-point {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border-left: 4px solid #667eea;
+        }
+
+        .key-point h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .key-point p {
+            color: #333;
+            font-size: 1em;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .text-chunk {
+            background: #f8f9fa;
+            border: 2px dashed #667eea;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 5px;
+            font-size: 0.8em;
+            text-align: center;
+            color: #666;
+        }
+
+        .chunk-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Data Source & Preprocessing -->
+        <div class="slide active">
+            <div class="slide-header">
+                <h1 class="slide-title">Data Source & Preprocessing</h1>
+                <p class="slide-subtitle">Circuit Court Opinions & Political Bias Analysis</p>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-section">
+                    <h3 class="section-title">🏛️ Circuit Court System</h3>
+                    <div class="judge-panel">
+                        <div class="judge">
+                            <div class="judge-icon">J1</div>
+                            <div class="judge-label">Judge 1</div>
+                        </div>
+                        <div class="judge">
+                            <div class="judge-icon">J2</div>
+                            <div class="judge-label">Judge 2</div>
+                        </div>
+                        <div class="judge">
+                            <div class="judge-icon">J3</div>
+                            <div class="judge-label">Judge 3</div>
+                        </div>
+                    </div>
+                    <p style="text-align: center; color: #333; font-size: 1em; font-weight: 500;">
+                        3 judges randomly selected → Majority vote → Random opinion author
+                    </p>
+                </div>
+
+                <div class="content-section">
+                    <h3 class="section-title">📊 Dataset Creation</h3>
+                    <div class="flow-diagram">
+                        <div class="flow-step">
+                            <div class="flow-icon">📄</div>
+                            <div>CourtListener DB</div>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-step">
+                            <div class="flow-icon">📝</div>
+                            <div>Opinion Text</div>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-step">
+                            <div class="flow-icon">🏛️</div>
+                            <div>Political Labels</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <div class="highlight-title">🎯 Research Questions</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px;">
+                    <div>
+                        <strong>1. Agent Performance:</strong><br>
+                        Which AI agent best identifies political bias in legal text?
+                    </div>
+                    <div>
+                        <strong>2. Bias Analysis:</strong><br>
+                        What political worldviews do different AI models exhibit?
+                    </div>
+                </div>
+            </div>
+
+            <div class="key-points">
+                <div class="key-point">
+                    <h4>🔍 Input Data</h4>
+                    <p>Published circuit court opinion texts + Political affiliations of panel judges</p>
+                </div>
+                <div class="key-point">
+                    <h4>🎯 Prediction Tasks</h4>
+                    <p>Predict judge political affiliations from opinion text content</p>
+                </div>
+                <div class="key-point">
+                    <h4>📏 Text Length Challenge</h4>
+                    <p>Long legal documents exceed 512-token transformer limits</p>
+                </div>
+                <div class="key-point">
+                    <h4>🔗 Bias Dependencies</h4>
+                    <p>Direct: Author bias → Text<br>Indirect: Panel bias → Author → Text</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Standard NLP Approach -->
+        <div class="slide">
+            <div class="slide-header">
+                <h1 class="slide-title">Standard NLP Approach</h1>
+                <p class="slide-subtitle">BERT with Chunking & Aggregation</p>
+            </div>
+
+            <div class="architecture-diagram">
+                <div class="bert-pipeline">
+                    <div class="pipeline-stage">
+                        <div class="stage-info">
+                            <div class="stage-title">1. Text Chunking</div>
+                            <div class="stage-desc">Sliding window with overlap to handle long documents</div>
+                        </div>
+                        <div class="stage-visual">CHUNK</div>
+                    </div>
+                    
+                    <div class="pipeline-stage">
+                        <div class="stage-info">
+                            <div class="stage-title">2. BERT Processing</div>
+                            <div class="stage-desc">Individual predictions for each text chunk</div>
+                        </div>
+                        <div class="stage-visual">BERT</div>
+                    </div>
+                    
+                    <div class="pipeline-stage">
+                        <div class="stage-info">
+                            <div class="stage-title">3. Aggregation</div>
+                            <div class="stage-desc">Combine chunk predictions via averaging or majority voting</div>
+                        </div>
+                        <div class="stage-visual">AGG</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-section">
+                    <h3 class="section-title">📐 Chunking Strategy</h3>
+                    <div class="chunk-container">
+                        <div class="text-chunk">Chunk 1<br>(tokens 1-512)</div>
+                        <div class="text-chunk">Chunk 2<br>(tokens 256-768)</div>
+                        <div class="text-chunk">Chunk 3<br>(tokens 512-1024)</div>
+                        <div class="text-chunk">Chunk 4<br>(tokens 768-1280)</div>
+                    </div>
+                    <p style="text-align: center; color: #333; font-size: 1em; margin-top: 15px; font-weight: 500;">
+                        Sliding window with 50% overlap to preserve context
+                    </p>
+                </div>
+
+                <div class="content-section">
+                    <h3 class="section-title">⚙️ Hyperparameters</h3>
+                    <div style="display: flex; flex-direction: column; gap: 15px;">
+                        <div style="background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                            <strong>Window Size:</strong> 256, 512, 768 tokens
+                        </div>
+                        <div style="background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                            <strong>Overlap:</strong> 25%, 50%, 75%
+                        </div>
+                        <div style="background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                            <strong>Aggregation:</strong> Mean, Max, Majority Vote
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <div class="highlight-title">🎯 Baseline Performance</div>
+                <p>This approach establishes our baseline for political bias prediction accuracy</p>
+            </div>
+        </div>
+
+        <!-- Slide 3: Agentic Approach -->
+        <div class="slide">
+            <div class="slide-header">
+                <h1 class="slide-title">Agentic Approach</h1>
+                <p class="slide-subtitle">Chain-of-Thought Reasoning for Political Bias Detection</p>
+            </div>
+
+            <div class="architecture-diagram">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin: 30px 0;">
+                    <div style="flex: 1; text-align: center;">
+                        <div style="background: linear-gradient(135deg, #667eea, #764ba2); padding: 30px; border-radius: 15px; color: white; margin-bottom: 15px;">
+                            <div style="font-size: 2em; margin-bottom: 10px;">📄</div>
+                            <div style="font-weight: 600;">Opinion Text</div>
+                            <div style="font-size: 0.9em; opacity: 0.9;">+ Political Context</div>
+                        </div>
+                    </div>
+                    
+                    <div style="font-size: 3em; color: #667eea; margin: 0 30px;">→</div>
+                    
+                    <div style="flex: 1; text-align: center;">
+                        <div style="background: linear-gradient(135deg, #667eea, #764ba2); padding: 30px; border-radius: 15px; color: white; margin-bottom: 15px;">
+                            <div style="font-size: 2em; margin-bottom: 10px;">🤖</div>
+                            <div style="font-weight: 600;">AI Agent</div>
+                            <div style="font-size: 0.9em; opacity: 0.9;">Chain-of-Thought</div>
+                        </div>
+                    </div>
+                    
+                    <div style="font-size: 3em; color: #667eea; margin: 0 30px;">→</div>
+                    
+                    <div style="flex: 1; text-align: center;">
+                        <div style="background: linear-gradient(135deg, #667eea, #764ba2); padding: 30px; border-radius: 15px; color: white; margin-bottom: 15px;">
+                            <div style="font-size: 2em; margin-bottom: 10px;">🎯</div>
+                            <div style="font-weight: 600;">Predictions</div>
+                            <div style="font-size: 0.9em; opacity: 0.9;">+ Reasoning</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="agent-comparison">
+                <div class="agent-card">
+                    <div class="agent-logo">GPT</div>
+                    <h4 style="margin-bottom: 10px; color: #2c3e50;">GPT-4</h4>
+                    <p style="color: #333; font-size: 1em;">OpenAI's flagship model</p>
+                </div>
+                <div class="agent-card">
+                    <div class="agent-logo">🤖</div>
+                    <h4 style="margin-bottom: 10px; color: #2c3e50;">Claude</h4>
+                    <p style="color: #333; font-size: 1em;">Anthropic's reasoning model</p>
+                </div>
+                <div class="agent-card">
+                    <div class="agent-logo">💎</div>
+                    <h4 style="margin-bottom: 10px; color: #2c3e50;">Gemini</h4>
+                    <p style="color: #333; font-size: 1em;">Google's multimodal AI</p>
+                </div>
+            </div>
+
+            <div class="key-points">
+                <div class="key-point full-width">
+                    <h4>💭 Chain-of-Thought Process</h4>
+                    <p>Agents explain their reasoning: "This opinion emphasizes judicial restraint and constitutional originalism, suggesting conservative judicial philosophy..." → Republican prediction</p>
+                </div>
+                <div class="key-point">
+                    <h4>📈 Performance Comparison</h4>
+                    <p>Compare agent accuracy against BERT baseline to identify best political bias detector</p>
+                </div>
+                <div class="key-point">
+                    <h4>🧠 Worldview Analysis</h4>
+                    <p>Analyze reasoning patterns to understand each model's political bias tendencies</p>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <div class="highlight-title">🔍 Key Insights Expected</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px;">
+                    <div>
+                        <strong>Best Performing Agent:</strong><br>
+                        Which model most accurately reflects real political biases
+                    </div>
+                    <div>
+                        <strong>Model Political Worldviews:</strong><br>
+                        What each AI considers "Republican" vs "Democratic" thinking
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="slide-indicators">
+        <div class="indicator active" onclick="showSlide(0)"></div>
+        <div class="indicator" onclick="showSlide(1)"></div>
+        <div class="indicator" onclick="showSlide(2)"></div>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn" onclick="prevSlide()">← Previous</button>
+        <button class="nav-btn active" onclick="showSlide(0)">Data & Preprocessing</button>
+        <button class="nav-btn" onclick="showSlide(1)">BERT Approach</button>
+        <button class="nav-btn" onclick="showSlide(2)">Agentic Approach</button>
+        <button class="nav-btn" onclick="nextSlide()">Next →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const indicators = document.querySelectorAll('.indicator');
+        const navBtns = document.querySelectorAll('.nav-btn');
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            indicators[currentSlide].classList.remove('active');
+            navBtns[currentSlide + 1].classList.remove('active');
+            
+            currentSlide = n;
+            
+            slides[currentSlide].classList.add('active');
+            indicators[currentSlide].classList.add('active');
+            navBtns[currentSlide + 1].classList.add('active');
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                showSlide(currentSlide + 1);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                showSlide(currentSlide - 1);
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+    </script>
+</body>
+</html>

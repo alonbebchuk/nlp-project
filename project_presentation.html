@@ -451,38 +451,11 @@
         </div>
 
         <!-- Slide 2: Standard NLP Approach -->
+        <!-- Slide 2: Standard NLP Approach -->
         <div class="slide">
             <div class="slide-header">
                 <h1 class="slide-title">Standard NLP Approach</h1>
                 <p class="slide-subtitle">Fine-tuned BERT + Classification Head (Baseline)</p>
-            </div>
-
-            <div class="architecture-diagram">
-                <div class="bert-pipeline">
-                    <div class="pipeline-stage">
-                        <div class="stage-info">
-                            <div class="stage-title">1. Text Chunking</div>
-                            <div class="stage-desc">Sliding window over opinion text with overlap</div>
-                        </div>
-                        <div class="stage-visual">CHUNK</div>
-                    </div>
-                    
-                    <div class="pipeline-stage">
-                        <div class="stage-info">
-                            <div class="stage-title">2. BERT + Classification Head</div>
-                            <div class="stage-desc">Fine-tuned BERT with individual predictions over each chunk</div>
-                        </div>
-                        <div class="stage-visual">BERT</div>
-                    </div>
-                    
-                    <div class="pipeline-stage">
-                        <div class="stage-info">
-                            <div class="stage-title">3. Aggregation Function</div>
-                            <div class="stage-desc">Combine chunk predictions (majority, average, max)</div>
-                        </div>
-                        <div class="stage-visual">AGG</div>
-                    </div>
-                </div>
             </div>
 
             <div class="content-grid">
@@ -521,6 +494,34 @@
                         <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); font-size: 1.1em;">
                             <strong>Aggregation Function:</strong> Majority, Average, Max
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="architecture-diagram">
+                <div class="bert-pipeline">
+                    <div class="pipeline-stage">
+                        <div class="stage-info">
+                            <div class="stage-title">1. Text Chunking</div>
+                            <div class="stage-desc">Sliding window over opinion text with overlap</div>
+                        </div>
+                        <div class="stage-visual">CHUNK</div>
+                    </div>
+                    
+                    <div class="pipeline-stage">
+                        <div class="stage-info">
+                            <div class="stage-title">2. BERT + Classification Head</div>
+                            <div class="stage-desc">Fine-tuned BERT with individual predictions over each chunk</div>
+                        </div>
+                        <div class="stage-visual">BERT</div>
+                    </div>
+                    
+                    <div class="pipeline-stage">
+                        <div class="stage-info">
+                            <div class="stage-title">3. Aggregation Function</div>
+                            <div class="stage-desc">Combine chunk predictions (majority, average, max)</div>
+                        </div>
+                        <div class="stage-visual">AGG</div>
                     </div>
                 </div>
             </div>

@@ -1,3 +1,22 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Circuit Court Opinion Analysis</title> <style> * { margin: 0; padding: 0; box-sizing: bor
+
+pasted
+
+move "Political Dependencies" inside "Circuit Court System"
+
+Edit
+I'll help you move the "Political Dependencies" section inside the "Circuit Court System" section. Let me update the HTML for you.
+
+
+Circuit Court Opinion Analysis Presentation
+Interactive artifact 
+
+
+
+
+You’re almost out of usage - your limits will reset at 10:00 PM
+Continue
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -365,6 +384,14 @@
             gap: 10px;
             margin: 20px 0;
         }
+
+        .dependency-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -393,9 +420,17 @@
                             <div class="judge-label">Judge 3</div>
                         </div>
                     </div>
-                    <p style="text-align: center; color: #333; font-size: 1.2em; font-weight: 500; line-height: 1.5;">
+                    <p style="text-align: center; color: #333; font-size: 1.2em; font-weight: 500; line-height: 1.5; margin-bottom: 20px;">
                         3 judges randomly selected → Majority vote → If important, opinion published by randomly chosen panel judge
                     </p>
+                    
+                    <div class="dependency-box">
+                        <h4 style="color: #2c3e50; margin-bottom: 15px; font-weight: 600; font-size: 1.3em;">🔗 Political Dependencies</h4>
+                        <p style="color: #333; font-size: 1.1em; line-height: 1.6; font-weight: 500;">
+                            <strong>Direct dependency:</strong> Judge to text (since he wrote it)<br>
+                            <strong>Indirect dependency:</strong> Other panel judges to text (since they voted on decision) + effect on authoring judge
+                        </p>
+                    </div>
                 </div>
 
                 <div class="content-section">
@@ -416,13 +451,6 @@
                             <div style="margin-bottom: 8px;"><strong>3)</strong> Opinion Text → Authoring judge political affiliation + Other panel judges political affiliation</div>
                             <div><strong>4)</strong> Opinion Text + Authoring judge political affiliation → Other panel judges political affiliation</div>
                         </div>                    </div>
-                </div>
-            </div>
-
-            <div class="key-points">
-                <div class="key-point full-width">
-                    <h4>🔗 Political Dependencies</h4>
-                    <p><strong>Direct dependency:</strong> Judge to text (since he wrote it)<br><strong>Indirect dependency:</strong> Other panel judges to text (since they voted on decision) + effect on authoring judge</p>
                 </div>
             </div>
 
@@ -627,7 +655,7 @@
                         REASONING:<br>
                         [Provide 6-8 sentences explaining both predictions based on the legal stances and their political alignments found in the opinion.]
                     </div>
-                </div>
+		</div>
             </div>
 
             <!-- Insights -->

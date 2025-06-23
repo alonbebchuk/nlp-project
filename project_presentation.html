@@ -420,13 +420,9 @@
             </div>
 
             <div class="key-points">
-                <div class="key-point">
+                <div class="key-point full-width">
                     <h4>🔗 Political Dependencies</h4>
                     <p><strong>Direct dependency:</strong> Judge to text (since he wrote it)<br><strong>Indirect dependency:</strong> Other panel judges to text (since they voted on decision) + effect on authoring judge</p>
-                </div>
-                <div class="key-point">
-                    <h4>📏 Text Length Challenge</h4>
-                    <p>Classic transformers have context length of 512 tokens whereas opinions can be tens or hundreds of thousands of tokens</p>
                 </div>
             </div>
 
@@ -482,7 +478,17 @@
 
             <div class="content-grid">
                 <div class="content-section">
-                    <h3 class="section-title">📐 Chunking Strategy</h3>
+                    <h3 class="section-title">📏 Text Length Challenge</h3>
+                    <div style="background: #fff3cd; border: 2px solid #ffc107; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                        <p style="text-align: center; color: #856404; font-size: 1.2em; font-weight: 600; margin-bottom: 10px;">
+                            🚨 Core Challenge
+                        </p>
+                        <p style="text-align: center; color: #856404; font-size: 1.1em; font-weight: 500;">
+                            Classic transformers have context length of 512 tokens whereas opinions can be tens or hundreds of thousands of tokens
+                        </p>
+                    </div>
+                    
+                    <h4 style="color: #2c3e50; margin-bottom: 15px; font-weight: 600; font-size: 1.3em;">📐 Chunking Strategy</h4>
                     <div class="chunk-container">
                         <div class="text-chunk">Chunk 1<br>(tokens 1-512)</div>
                         <div class="text-chunk">Chunk 2<br>(tokens 256-768)</div>
@@ -622,6 +628,7 @@
                         [Provide 6-8 sentences explaining both predictions based on the legal stances and their political alignments found in the opinion.]
                     </div>
                 </div>
+            </div>
 
             <!-- Insights -->
             <div class="highlight-box full-width" style="margin-top: 20px; padding-top: 30px; padding-bottom: 30px;">
